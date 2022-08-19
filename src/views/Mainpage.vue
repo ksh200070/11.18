@@ -35,14 +35,13 @@
     </div>
 
     <div id="allBox">
-      <!-- <div class="stamp_sticker"></div> -->
       <div v-for="i in 25" :key="i" @click="open_question" style="position : relative">
         <img v-if="i<10" :src="require(`@/assets/06_gift0${i}.png`)" alt="image" id='giftbox' >
         <img v-else :src="require(`@/assets/06_gift${i}.png`)" alt="image" id='giftbox' >
-          {{i}}
-          <div style="position:absolute;">
-            <img v-if="userInfo.question[i-1].answerY_N"  src="../assets/03_gift_opened_sticker.png" style="width:50px">
-          </div>
+        {{i}}
+        <div style="position:absolute;">
+          <img v-if="userInfo.question[i-1].answerY_N"  src="../assets/03_gift_opened_sticker.png" style="width:50px" class="stamp_sticker">
+        </div>
       </div>
     </div>
     <button id="answer_group" @click="togo_answerGrouping_page">답변 모아보기</button>
@@ -119,7 +118,8 @@
 <form id= "request_textarea" action="" method="POST">
 <textarea v-model="a" cols="40" rows="10"  placeholder="행복했던 순간을 떠올려보세요:)" maxlength="180" id="answer"> </textarea>
 <br/>
-<span id="counter">({{qna_answer.length}}자 / 최대 180자)</span>
+<!-- length에러나면 아래 주석처리하기 -->
+<!-- <span id="counter" v-if='a'>({{a.length}}자 / 최대 180자)</span> -->
 </form>
 
 <div class="requset_share">
@@ -469,10 +469,32 @@ export default {
           this.$router.push({name: 'home'})
     })
       },
-    goto_QnApage() {
+    goto_QnApage(event) {
 
       this.Q_gather_page=false;
       this.qna_answer_page=true;
+
+      this.dayNum = event.target.innerText[1];
+      console.log(event)
+      let config2 = {
+              headers : {
+                'access-token': this.token
+              }, 
+              params: { 
+                userIdx : this.userInfo.userIdx,
+                qNum : parseInt(this.dayNum) 
+              }
+            }
+            axios
+            .get('http://localhost:3001/api/members/qnapage', config2)
+            .then(res => {
+              this.q= res.data.result.qnacontent
+              this.a= res.data.result.answer
+            })
+            .catch(err => {
+             console.log(err);
+            })
+
     },
     togo_answerGrouping_page(){
       axios
@@ -689,8 +711,17 @@ export default {
       //   console.log(event.target.previousSibling)
       //   this.dayNum = parseInt(event.target.previousSibling.data);
       // }
-      
-      this.dayNum = parseInt(event.target.nextSibling.data);
+      if(event.target.classList.contains('stamp_sticker')){
+         // console.log('포함되어있음')
+         
+         this.dayNum = parseInt(event.target.parentNode.previousSibling.data);
+         console.log(this.dayNum)
+       }
+       else{
+         // console.log('없음')
+         this.dayNum = parseInt(event.target.nextSibling.data);
+         console.log(this.dayNum)
+       }
       
       this.opened = this.userInfo.question[this.dayNum-1].opened;
       this.answerY_N = this.userInfo.question[this.dayNum-1].answerY_N
@@ -829,13 +860,13 @@ body {
   font-size: 16px;
 }
 
-.stamp_sticker {
+/* .stamp_sticker {
   width: 100px;
   height: 100px;
   background-image: url('../assets/02_stamp.png');
   background-size: cover;
   position: fixed;
-}
+} */
 .fade-enter-active, .fade-leave-active {
   transition: opacity 1.5s;
 }
@@ -847,6 +878,7 @@ body {
   width: 24px;
   top: 25px;
   right: 30px;
+  cursor:pointer;
 }
 #day_text {
   font-size: 50px;
