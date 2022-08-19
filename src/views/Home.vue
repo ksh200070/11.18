@@ -183,7 +183,6 @@ a {
 
 #stampimg {
   width: 53px;
-  height: 59px;
   position: absolute;
 }
 </style>
