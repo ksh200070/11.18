@@ -79,7 +79,7 @@ export default new Vuex.Store({
 
   },
   actions: {
-    
+
     // 로그인 시도
     login({ commit }, loginObj) {
       // 통신1. 로그인 -> 토큰 반환
@@ -117,7 +117,7 @@ export default new Vuex.Store({
           }
           console.log('답변 있는 질문상자 : '+ stampNumList)
           let openlist=[]
-          
+
           for(let j=0; j<25; j++){
             if(userInfo.question[j].opened ==1){
               openlist.push(userInfo.question[j].qNum)
@@ -125,7 +125,7 @@ export default new Vuex.Store({
           }
 
           console.log('오픈 된 질문상자 : ' + openlist)
-          
+
 
           commit('loginSuccess',userInfo)
           commit('saveStateToStorage')
@@ -170,7 +170,7 @@ export default new Vuex.Store({
     // .then(() => {
     //     // always executed
     // });
-  
+
     // },
     doReadStateFromStorage({commit}) {
       commit('readStateFromStorage')
@@ -178,5 +178,3 @@ export default new Vuex.Store({
     }
   }
 )
-
- 
