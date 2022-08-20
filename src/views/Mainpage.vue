@@ -74,7 +74,7 @@
       </div>
 
     <div id="contentsBox">
-      <div v-for="item in question" :key="item">
+      <div v-for="item in question" :key="item.id">
         <div @click.stop="goto_QnApage" class="questionBox">
           <div class="questionBox_line">
             <div class="questions">
@@ -746,6 +746,7 @@ export default {
             axios
             .get('http://localhost:3001/api/members/qnapage', config2)
             .then(res => {
+              console.log(res.data.result)
               this.q= res.data.result.qnacontent
               this.a= res.data.result.answer
             })
