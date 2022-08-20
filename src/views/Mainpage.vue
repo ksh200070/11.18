@@ -40,7 +40,7 @@
         <img v-else :src="require(`@/assets/06_gift${i}.png`)" alt="image" id='giftbox' >
         {{i}}
         <div style="position:absolute;">
-          <img v-if="userInfo.question[i-1].answerY_N"  src="../assets/03_gift_opened_sticker.png" style="width:50px" class="stamp_sticker">
+          <img v-if="userInfo.question[i-1].answerY_N" src="../assets/03_gift_opened_sticker.png" style="width:50px" class="stamp_sticker">
         </div>
       </div>
     </div>
@@ -460,6 +460,7 @@ export default {
         }
     },
     methods: {
+
     logout_(){
         axios
         .delete('http://localhost:3001/api/members/logout', {data: {userIdx : this.userInfo.userIdx}})
@@ -720,7 +721,7 @@ export default {
        }
       
       this.opened = this.userInfo.question[this.dayNum-1].opened;
-      this.answerY_N = this.userInfo.question[this.dayNum-1].answerY_N
+      this.answerY_N = this.userInfo.question[this.dayNum-1].answerY_N;
       
       console.log("opened:" + this.opened, 'answerY_N:'+this.answerY_N)
 
@@ -804,6 +805,8 @@ export default {
       .then(res => {
             this.userInfo.question = res.data.result.question;
           })
+
+      
     }
 
     }

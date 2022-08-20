@@ -8,11 +8,14 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   /* eslint-disable */
-  plugins: [
-    createPersistedState({
-      storage: window.sessionStorage
-    })
-  ],
+  // plugins: [
+  //   createPersistedState({
+  //     storage: window.sessionStorage
+  //     // sessionStorage.setItem('d',d),
+
+      
+  //   })
+  // ],
   state: {
     token: null,
     userInfo: null,
@@ -20,7 +23,7 @@ export default new Vuex.Store({
     isError: false,
     isLoading: false,
     stampNumList: null,
-    config: null,
+    config: null
   },
   mutations: {
     // 스탬프붙일 상자번호 불러오기
@@ -58,6 +61,8 @@ export default new Vuex.Store({
       state.userInfo = null
       state.token = '';
       localStorage.removeItem('login.accessToken')
+      sessionStorage.removeItem('access_token')
+      sessionStorage.removeItem('userIdx')
     },
     setAccessToken(state,token) {
       state.token = token;
@@ -81,7 +86,7 @@ export default new Vuex.Store({
   actions: {
 
     // 로그인 시도
-    login({ commit }, loginObj) {
+    login({ commit, dispatch }, loginObj) {
       // 통신1. 로그인 -> 토큰 반환
       commit('loadingOn')
       axios
@@ -93,55 +98,10 @@ export default new Vuex.Store({
         commit('setAccessToken',res.data.result.AT)
         let token = res.data.result.AT
         let userIdx = res.data.result.userIdx
-        let config = {
-          headers: {
-            'access-token': token
-          },
-          params: {userIdx : userIdx}
-        }
-          axios
-          .get('http://localhost:3001/api/members/question', config) // header 설정을 위해 config 선언, get 두번째 인자.
-          .then(res => {
-            let userInfo = {
-            nickName: res.data.result.nickName,
-            stampImg: res.data.result.stampImg,
-            question: res.data.result.question,
-            userIdx : userIdx
-          }
-          let stampNumList=[];
-
-          for (let i=0; i<25; i++){
-            if(userInfo.question[i].answerY_N==1){
-              stampNumList.push(userInfo.question[i].qNum)
-            }
-          }
-          console.log('답변 있는 질문상자 : '+ stampNumList)
-          let openlist=[]
-
-          for(let j=0; j<25; j++){
-            if(userInfo.question[j].opened ==1){
-              openlist.push(userInfo.question[j].qNum)
-            }
-          }
-
-          console.log('오픈 된 질문상자 : ' + openlist)
-
-
-          commit('loginSuccess',userInfo)
-          commit('saveStateToStorage')
-          commit('loadingOff')
-
-          commit('getTokentoMain', token)
-          commit('stampNum', stampNumList)
-          commit('getConfigtoMain', config)
-
-          router.push({name:'mainpage', config})
-        })
-        .catch(err => {
-          console.log(err)
-          commit('loadingOff')
-          commit('loginError')
-        })
+        //토큰과 userIdx를 로컬스토리지에 저장
+        sessionStorage.setItem('access_token', token)
+        sessionStorage.setItem('userIdx', userIdx)
+        dispatch('getMemberInfo')
       })
       .catch(err => {
         console.log(err)
@@ -151,6 +111,64 @@ export default new Vuex.Store({
     },
     close({ state, commit }) {
       commit('closeit')
+    },
+
+    getMemberInfo({commit}){
+      let token = sessionStorage.getItem('access_token')
+      let userIdx = sessionStorage.getItem('userIdx')
+      //로컬 스토리지에 저장되어있는 토큰을 불러온다.
+      let config = {
+        headers: {
+          'access-token': token
+        },
+        params: {userIdx : userIdx}
+      }
+      console.log(config)
+      //토큰 -> 멤버 정보 반환
+      // 새로 고침 -> 토큰만 가지고 멤버정보 요청
+      axios
+      .get('http://localhost:3001/api/members/question', config) // header 설정을 위해 config 선언, get 두번째 인자.
+      .then(res => {
+        let userInfo = {
+        nickName: res.data.result.nickName,
+        stampImg: res.data.result.stampImg,
+        question: res.data.result.question,
+        userIdx : userIdx
+      }
+      let stampNumList=[];
+
+      // for (let i=0; i<25; i++){
+      //   if(userInfo.question[i].answerY_N==1){
+      //     stampNumList.push(userInfo.question[i].qNum)
+      //   }
+      // }
+      // console.log('답변 있는 질문상자 : '+ stampNumList)
+      // let openlist=[]
+
+      // for(let j=0; j<25; j++){
+      //   if(userInfo.question[j].opened ==1){
+      //     openlist.push(userInfo.question[j].qNum)
+      //   }
+      // }
+
+      // console.log('오픈 된 질문상자 : ' + openlist)
+
+
+      commit('loginSuccess',userInfo)
+      commit('saveStateToStorage')
+      commit('loadingOff')
+
+      commit('getTokentoMain', token)
+      commit('stampNum', stampNumList)
+      commit('getConfigtoMain', config)
+
+      router.push({name:'mainpage', config})
+    })
+        // .catch(err => {
+        //   console.log(err)
+        //   commit('loadingOff')
+        //   commit('loginError')
+        // })
     },
     // logout({commit}) {
     //   commit('logout')
