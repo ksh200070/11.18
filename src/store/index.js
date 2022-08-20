@@ -2,12 +2,19 @@ import axios from 'axios'
 import Vue from 'vue'
 import Vuex from 'vuex'
 import router from '../router/index.js'
+import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   /* eslint-disable */
+  plugins: [
+    createPersistedState({
+      storage: window.sessionStorage
+    })
+  ],
   state: {
+    token: null,
     userInfo: null,
     isLogin: false,
     isError: false,
@@ -34,7 +41,6 @@ export default new Vuex.Store({
       state.isLogin = true
       state.isError = false
       state.userInfo = payload
-      
     },
     // 이메일 또는 비번 실패했을 때,
     loginError(state) {
@@ -53,8 +59,11 @@ export default new Vuex.Store({
       state.token = '';
       localStorage.removeItem('login.accessToken')
     },
+    setAccessToken(state,token) {
+      state.token = token;
+    },
     saveStateToStorage(state) {
-      localStorage.setItem('login.accessToken',state.token)
+      localStorage.setItem('login.accessToken', state.token)
     },
     readStateFromStorage(state) {
       if (localStorage.getItem('login.accessToken') != null) {
@@ -81,6 +90,7 @@ export default new Vuex.Store({
         // 성공 시 토큰(실제로는 user_id값을 받아옴)
         // 토큰을 헤더에 포함시켜서 유저 정보를 요청
         console.log(res.data)
+        commit('setAccessToken',res.data.result.AT)
         let token = res.data.result.AT
         let userIdx = res.data.result.userIdx
         let config = {
@@ -142,26 +152,26 @@ export default new Vuex.Store({
     close({ state, commit }) {
       commit('closeit')
     },
-    logout({commit}) {
-      commit('logout')
-      // localStorage.removeItem('access_token')
-      router.push({name: 'home'})
+    // logout({commit}) {
+    //   commit('logout')
+    //   // localStorage.removeItem('access_token')
+    //   router.push({name: 'home'})
 
-      axios
-      .delete('http://localhost:3001/api/members/logout')
-      .then(response => {
-        // handle success
-        console.log(response);
-    })
-    .catch(error => {
-        // handle error
-        console.log(error);
-    })
-    .then(() => {
-        // always executed
-    });
+    //   axios
+    //   .delete('http://localhost:3001/api/members/logout')
+    //   .then(response => {
+    //     // handle success
+    //     console.log(response);
+    // })
+    // .catch(error => {
+    //     // handle error
+    //     console.log(error);
+    // })
+    // .then(() => {
+    //     // always executed
+    // });
   
-    },
+    // },
     doReadStateFromStorage({commit}) {
       commit('readStateFromStorage')
     }
