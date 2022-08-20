@@ -707,16 +707,6 @@ export default {
     },
 
     open_question(event) {
-      
-      
-      // if (event.target.nextSibling){
-      //   console.log(event.target.nextSibling)
-      //   this.dayNum = parseInt(event.target.nextSibling.data);
-      // }
-      // else {
-      //   console.log(event.target.previousSibling)
-      //   this.dayNum = parseInt(event.target.previousSibling.data);
-      // }
       if(event.target.classList.contains('stamp_sticker')){
          // console.log('포함되어있음')
          
