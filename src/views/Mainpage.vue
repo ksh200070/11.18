@@ -75,7 +75,7 @@
 
     <div id="contentsBox">
       <div v-for="item in question" :key="item">
-        <div @click="goto_QnApage" class="questionBox">
+        <div @click.stop="goto_QnApage" class="questionBox">
           <div class="questionBox_line">
             <div class="questions">
             <span id="Q_inquestion">Q{{ item.qNum }}. &nbsp;</span>
@@ -475,8 +475,13 @@ export default {
       this.Q_gather_page=false;
       this.qna_answer_page=true;
 
-      this.dayNum = event.target.innerText[1];
-      console.log(event)
+      this.dayNum = event.currentTarget.innerText[1];
+      // console.log('그냥 타겟 : '+event.target)
+      // console.log('그냥 타겟(이너텍스트) : '+event.target.innerText)
+      // console.log('현재 타겟 : '+event.currentTarget)
+      // console.log('현재 타겟(이너텍스트) : '+event.currentTarget.innerText)
+      console.log('dayNum : '+this.dayNum)
+
       let config2 = {
               headers : {
                 'access-token': this.token

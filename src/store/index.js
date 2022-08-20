@@ -8,6 +8,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   /* eslint-disable */
   state: {
+    token : null,
     userInfo: null,
     isLogin: false,
     isError: false,
