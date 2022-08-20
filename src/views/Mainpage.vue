@@ -467,6 +467,7 @@ export default {
           // handle success
           console.log(response);
           this.$router.push({name: 'home'})
+          this.$store.commit('logout')
     })
       },
     goto_QnApage(event) {
@@ -1496,12 +1497,7 @@ span {vertical-align: baseline;}
 #goodbye_page #wrap2 ul {
   padding: 8px 0 0 0;
 }
-#wrap2 li {
 
-}
-#wrap2 li .label-box {
-
-}
 #wrap2 li .label-box span {
   font-weight: 800;
   font-size: 16px;
@@ -1575,9 +1571,6 @@ span {vertical-align: baseline;}
   font-weight: 800;
   padding: 13px 0 0 0;
 }
-#wrap2 li .input-box .chk {
-
-}
 #wrap2 li .input-box .unchk {
   color: #920000;
 }
@@ -1595,7 +1588,6 @@ span {vertical-align: baseline;}
   right: 27px;
   bottom: 7px;
 }
-
 #wrap3 {
   text-align: center;
   padding: 16px 0;
@@ -1610,13 +1602,6 @@ span {vertical-align: baseline;}
   width: 168px;
   height: 42px;
 }
-
-#signUp_page {
-  /* padding: 25px;
-  border-radius: 5px;
-  background-color: #F4E7B6; */
-}
-
 #goodbye_finish_page .title {
   font-family: 'Sorts Mill Goudy', serif;
   color: #FFF500;
