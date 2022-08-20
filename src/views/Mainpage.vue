@@ -74,7 +74,7 @@
       </div>
 
     <div id="contentsBox">
-      <div v-for="item in question" :key="item">
+      <div v-for="item in question" :key="item.id">
         <div @click.stop="goto_QnApage" class="questionBox">
           <div class="questionBox_line">
             <div class="questions">
@@ -707,16 +707,6 @@ export default {
     },
 
     open_question(event) {
-      
-      
-      // if (event.target.nextSibling){
-      //   console.log(event.target.nextSibling)
-      //   this.dayNum = parseInt(event.target.nextSibling.data);
-      // }
-      // else {
-      //   console.log(event.target.previousSibling)
-      //   this.dayNum = parseInt(event.target.previousSibling.data);
-      // }
       if(event.target.classList.contains('stamp_sticker')){
          // console.log('포함되어있음')
          
