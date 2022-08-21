@@ -105,6 +105,12 @@
 <!-- 미니 : 회원가입 view-->
   <div v-if="signUp_page==true" id="signUp_page">
     <div class="modal">
+      <div class="modal_background" v-if="signupOpen == true">
+        <div class="modal_box">
+          <h4>{{ signup_message }}</h4>
+          <button @click="check">확인</button>
+        </div>
+      </div>
       <div class="modal_background check-password_form" v-if="pwformOpen == true">
         <div class="modal_box">
           <h4>비밀번호 형식을 확인해주세요</h4>
@@ -123,18 +129,18 @@
           <button @click="check">확인</button>
         </div>
       </div>
-      <div class="modal_background check-email" v-if="emailOpen == true">
+      <!-- <div class="modal_background check-email" v-if="emailOpen == true">
         <div class="modal_box">
           <h4>이미 등록된 이메일입니다</h4>
           <button @click="check">확인</button>
         </div>
-      </div>
-      <div class="modal_background check-nickname" v-if="nickOpen == true">
+      </div> -->
+      <!-- <div class="modal_background check-nickname" v-if="nickOpen == true">
         <div class="modal_box">
           <h4>닉네임을 입력해주세요</h4>
           <button @click="check">확인</button>
         </div>
-      </div>
+      </div> -->
       <div class="modal_background" v-if="submit_btn == true">
         <div class="modal_box">
           <h4>회원가입이 완료되었습니다</h4>
@@ -181,7 +187,7 @@
           </li>
         </ul>
         <p>confirm</p>
-        <img id="stamp_img" src="../assets/02_stamp.png" alt="스탬프" v-if="pwformOpen == false && pwOpen == false && emailOpen == false && nickOpen == false">
+        <img id="stamp_img" src="../assets/02_stamp.png" alt="스탬프" v-if="signupOpen == false && pwformOpen == false && pwOpen == false && emailformOpen == true">
       </div>
       <div id="wrap3">
         <button class="finish-btn" @click="submit">완료</button>
@@ -214,14 +220,14 @@ export default {
       nickName: '',
       질문데이터: '부여된 랜덤 질문 리스트 데이터',
       ClickButton: false,
-      nickOpen: false,
+      // nickOpen: false,
       pwOpen: false,
       chkPw: true,
       chkNum: /[0-9]/,
       chkEng: /[a-zA-Z]/,
       chkEmailForm: /^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
       chkEmail: false,
-      emailOpen: false,
+      // emailOpen: false,
       pwformOpen: false,
       isEmail: false,
       isEmailError:false,
@@ -229,7 +235,9 @@ export default {
       submit_btn: false,
 
       password_true:'',
-      email_true:''
+      email_true:'',
+      signup_message:'',
+      signupOpen: false
 
 
     }
@@ -273,27 +281,37 @@ export default {
       }
       const { data } = await registerUser(userData);
       console.log(data);
-      if (this.nickName == ''){
-        this.nickOpen = true;
+      if(data.isSuccess == 0){
+        this.signup_message = data.message;
+        this.signupOpen = true;
+        // this.nickOpen = false;
         this.emailformOpen = false;
-        this.emailOpen = false;
+        // this.emailOpen = false;
+        this.pwOpen = false;
+        this.pwformOpen = false;
+        this.submit_btn = false;
+      }
+      else if (this.nickName == ''){
+        // this.nickOpen = true;
+        this.emailformOpen = false;
+        // this.emailOpen = false;
         this.pwOpen = false;
         this.pwformOpen = false;
         this.submit_btn = false;
       }
       else if (this.email == '' || this.chkEmail == false){
         this.emailformOpen = true;
-        this.emailOpen = false;
+        // this.emailOpen = false;
         this.pwOpen = false;
         this.pwformOpen = false;
         this.submit_btn = false;
       }
-      else if (data.code == 3001){
-        this.emailOpen = true;
-        this.pwOpen = false;
-        this.pwformOpen = false;
-        this.submit_btn = false;
-      }
+      // else if (data.code == 3001){
+      //   this.emailOpen = true;
+      //   this.pwOpen = false;
+      //   this.pwformOpen = false;
+      //   this.submit_btn = false;
+      // }
       else if (this.password == ''){
         this.email_true = this.email;
         this.pwOpen = true;
@@ -325,9 +343,9 @@ export default {
     },
 
     check () {
-      this.nickOpen = false;
+      // this.nickOpen = false;
       this.pwOpen = false;
-      this.emailOpen = false;
+      // this.emailOpen = false;
       this.pwformOpen = false;
       this.emailformOpen = false;
       this.byeemailOpen = false;
@@ -335,6 +353,7 @@ export default {
       this.oldpwOpen = false;
       this.newpwOpen = false;
       this.setting_page = false;
+      this.signupOpen = false;
     },
 
     chkInput () {
