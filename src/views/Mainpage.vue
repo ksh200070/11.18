@@ -719,9 +719,8 @@ export default {
          this.dayNum = parseInt(event.target.nextSibling.data);
          console.log(this.dayNum)
        }
-      
       this.opened = this.userInfo.question[this.dayNum-1].opened;
-      this.answerY_N = this.userInfo.question[this.dayNum-1].answerY_N;
+      this.answerY_N = this.userInfo.question[this.dayNum-1].answerY_N; 
       
       console.log("opened:" + this.opened, 'answerY_N:'+this.answerY_N)
 
