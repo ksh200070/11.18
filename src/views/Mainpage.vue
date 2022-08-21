@@ -556,7 +556,7 @@ export default {
       this.signUp_page = false;
     },
     togo_home(){
-      this.$router.push('/');
+      this.$router.push({name: 'home'});
       this.goodbye_finish_page = false;
     },
     togo_changePw_page(){
