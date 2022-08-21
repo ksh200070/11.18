@@ -627,7 +627,7 @@ export default {
     },
     async changepw_submit(){
       const pwData = {
-        userIdx: 1,
+        userIdx: this.config.userIdx,
         old_pw: this.old_pw,
         new_pw: this.new_pw
       }
@@ -715,7 +715,6 @@ export default {
         this.RePw = false;
       }
     },
-
     open_question(event) {
       if(event.target.classList.contains('stamp_sticker')){
          // console.log('포함되어있음')
@@ -728,9 +727,14 @@ export default {
          this.dayNum = parseInt(event.target.nextSibling.data);
          console.log(this.dayNum)
        }
+       axios
+       .get('http://localhost:3001/api/members/question',this.config)
+       .then(res=> {
+         console.log('다시 받아온 opend값:'+res.data.result.question[this.dayNum-1].opened)
+       })
       this.opened = this.userInfo.question[this.dayNum-1].opened;
       this.answerY_N = this.userInfo.question[this.dayNum-1].answerY_N; 
-      
+      this.getBoxInfo()
       console.log("opened:" + this.opened, 'answerY_N:'+this.answerY_N)
 
       let config2 = {
@@ -753,7 +757,18 @@ export default {
              console.log(err);
             })
 
-        if(this.opened==0){
+        
+
+      // };
+    },
+    getBoxInfo(){
+      axios
+       .get('http://localhost:3001/api/members/question',this.config)
+       .then(res=> {
+         console.log('다시 받아온 opend값:'+res.data.result.question[this.dayNum-1].opened)
+         this.opened = res.data.result.question[this.dayNum-1].opened
+         console.log(this.opened)
+         if(this.opened==0){
           this.ooops=true;
         }
         else if(this.opened==1){
@@ -770,18 +785,15 @@ export default {
             
             this.loading_page=true;
             this.Q_list_page=false;
-            
-            
-
-            
           }
          else if(this.answerY_N==1){
             this.qna_answer_page=true;
            this.Q_list_page=false;
         }
         }
+       })
 
-      // };
+       
     },
     togo_setting_page() {
       this.setting_page=true;
