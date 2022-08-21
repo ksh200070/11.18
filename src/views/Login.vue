@@ -135,6 +135,12 @@
           <button @click="check">확인</button>
         </div>
       </div>
+      <div class="modal_background" v-if="submit_btn == true">
+        <div class="modal_box">
+          <h4>회원가입이 완료되었습니다</h4>
+          <button @click="signup_check">확인</button>
+        </div>
+      </div>
     </div>
 
     <div class="content">
@@ -220,6 +226,7 @@ export default {
       isEmail: false,
       isEmailError:false,
       emailformOpen: false,
+      submit_btn: false,
 
       password_true:'',
       email_true:''
@@ -272,34 +279,43 @@ export default {
         this.emailOpen = false;
         this.pwOpen = false;
         this.pwformOpen = false;
+        this.submit_btn = false;
       }
       else if (this.email == '' || this.chkEmail == false){
         this.emailformOpen = true;
         this.emailOpen = false;
         this.pwOpen = false;
         this.pwformOpen = false;
+        this.submit_btn = false;
       }
       else if (data.code == 3001){
         this.emailOpen = true;
         this.pwOpen = false;
         this.pwformOpen = false;
+        this.submit_btn = false;
       }
       else if (this.password == ''){
         this.email_true = this.email;
         this.pwOpen = true;
         this.pwformOpen = false;
+        this.submit_btn = false;
       }
       else if (this.chkPw == false){
         this.email_true = this.email;
         this.pwformOpen = true;
+        this.submit_btn = false;
       }
       else {
         this.email_true = this.email;
         this.password_true = this.password;
-        this.initForm();
-        this.login_page=true;
-        this.signUp_page=false;
+        this.submit_btn = true;
       }
+    },
+    signup_check(){
+      this.submit_btn = false;
+      this.initForm();
+      this.login_page=true;
+      this.signUp_page=false;
     },
 
     initForm() {
