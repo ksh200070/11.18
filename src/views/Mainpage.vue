@@ -623,6 +623,11 @@ export default {
         this.goodbye_page = false;
         this.goodbye_finish_page = true;
         this.initForm();
+
+        //탈퇴시 세션스토리지에 있는 token, useridx도 삭제
+        sessionStorage.removeItem('access_token')
+        sessionStorage.removeItem('userIdx')
+
       }
     },
     async changepw_submit(){
@@ -773,28 +778,22 @@ export default {
           this.ooops=true;
         }
         else if(this.opened==1){
-          // this.dayNum = parseInt(event.target.nextSibling.data);
-          console.log('dayNum:'+ this.dayNum);
+          // console.log('dayNum:'+ this.dayNum);
 
           if(this.answerY_N==0){
-            // this.loading_page=true;
-            
             setTimeout(function(){
               this.qna_answer_page=true;
               this.loading_page=false;
             }.bind(this),2000)
-            
             this.loading_page=true;
             this.Q_list_page=false;
           }
-         else if(this.answerY_N==1){
+          else if(this.answerY_N==1){
             this.qna_answer_page=true;
-           this.Q_list_page=false;
-        }
+            this.Q_list_page=false;
+          }
         }
        })
-
-       
     },
     togo_setting_page() {
       this.setting_page=true;
@@ -808,26 +807,19 @@ export default {
       this.Q_list_page=true;
     },
     submit() {
-      this.Q_list_page=true;
-      this.qna_answer_page=false;
       axios
       .patch('http://localhost:3001/api/members/useranswer',{
-        
           answer : this.a,
           userIdx : this.userInfo.userIdx,
           qNum : this.dayNum
-        
       })
-      .then(res => {
-        this.answerY_N = res.data.result.answerY_N;
-      })
+      .then(res => {this.answerY_N = res.data.result.answerY_N;})
       axios
       .get('http://localhost:3001/api/members/question', this.config)
-      .then(res => {
-            this.userInfo.question = res.data.result.question;
-          })
-
+      .then(res => {this.userInfo.question = res.data.result.question;})
       
+      this.Q_list_page=true;
+      this.qna_answer_page=false;
     }
 
     }
