@@ -676,6 +676,7 @@ export default {
     },
     check_finish(){
       this.changepwOpen = false;
+      this.changePw_page = false;
       this.Q_list_page = true;
     },
     chkInput(){
