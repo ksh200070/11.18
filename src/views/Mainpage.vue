@@ -556,9 +556,8 @@ export default {
       this.signUp_page = false;
     },
     togo_home(){
+      this.$router.push('/');
       this.goodbye_finish_page = false;
-      this.start_page = true;
-      this.pw_find_page = false;
     },
     togo_changePw_page(){
       this.Q_list_page = false;
