@@ -384,6 +384,7 @@ import data from '../assets/test_data1.js';
 import { changePw } from '../api/changepw';
 import question from '../assets/test_data1.js';
 // import { config } from 'vue/types/umd';
+import { withdraw } from '../api/withdraw';
 
 
 export default {
@@ -604,12 +605,23 @@ export default {
     },
 
 
-    bye_submit(e){
-      e.preventDefault();
-      // api 받아와서 수정해야함
-      if(this.bye_email == ''){
+    async bye_submit(){
+      const withdrawData = {
+        email: this.email,
+        password: this.password
+      }
+      const { data } = await withdraw(withdrawData);
+      console.log(data);
+      if(data.code == 3003){
         this.byeemailOpen = true;
         this.byepwOpen = false;
+      }
+      else if(this.bye_email == ''){
+        this.byeemailOpen = true;
+        this.byepwOpen = false;
+      }
+      else if(data.code == 3004){
+        this.byepwOpen = true;
       }
       else if(this.bye_pw == ''){
         this.byepwOpen = true;

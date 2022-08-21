@@ -2,7 +2,7 @@ import axios from 'axios'
 import Vue from 'vue'
 import Vuex from 'vuex'
 import router from '../router/index.js'
-import createPersistedState from 'vuex-persistedstate'
+// import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex)
 
