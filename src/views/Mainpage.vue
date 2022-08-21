@@ -607,28 +607,22 @@ export default {
 
     async bye_submit(){
       const withdrawData = {
-        email: this.email,
-        password: this.password
+        email: this.bye_email,
+        password: this.bye_pw
       }
       const { data } = await withdraw(withdrawData);
       console.log(data);
-      if(data.code == 3003){
+      if(/* this.bye_email !== this.email || */ this.bye_email == ''){
         this.byeemailOpen = true;
         this.byepwOpen = false;
       }
-      else if(this.bye_email == ''){
-        this.byeemailOpen = true;
-        this.byepwOpen = false;
-      }
-      else if(data.code == 3004){
-        this.byepwOpen = true;
-      }
-      else if(this.bye_pw == ''){
+      else if(/* this.bye_pw !== this.password || */ this.bye_pw == ''){
         this.byepwOpen = true;
       }
       else if(this.bye_email !== '' && this.bye_pw !== '' && this.bye_repw !== '' && this.RePw == true){
         this.goodbye_page = false;
         this.goodbye_finish_page = true;
+        this.initForm();
       }
     },
     async changepw_submit(){
@@ -663,6 +657,9 @@ export default {
     initForm() {
       this.old_pw = '';
       this.new_pw = '';
+      this.bye_email = '';
+      this.bye_pw = '';
+      this.bye_repw = '';
     },
     check(){
       this.nickOpen = false;

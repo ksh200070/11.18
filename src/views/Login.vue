@@ -284,16 +284,8 @@ export default {
         this.pwOpen = false;
         this.pwformOpen = false;
       }
-      // else if (!this.chkEmailForm.test(this.email)){
-      //   this.emailformOpen = true;
-      //   this.emailOpen = false;
-      //   this.pwOpen = false;
-      //   this.pwformOpen = false;
-      //   // this.email_true = this.email;
-      // }
       else if (this.password == ''){
         this.email_true = this.email;
-        // console.log("형식 테스트 후", "검증 전", this.email, "검증 후", this.email_true);
         this.pwOpen = true;
         this.pwformOpen = false;
       }
@@ -303,6 +295,7 @@ export default {
       }
       else {
         this.email_true = this.email;
+        this.password_true = this.password;
         this.initForm();
         this.login_page=true;
         this.signUp_page=false;
