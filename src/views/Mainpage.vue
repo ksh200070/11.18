@@ -627,7 +627,7 @@ export default {
     },
     async changepw_submit(){
       const pwData = {
-        userIdx: this.config.userIdx,
+        userIdx: this.userInfo.userIdx,
         old_pw: this.old_pw,
         new_pw: this.new_pw
       }
