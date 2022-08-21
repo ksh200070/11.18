@@ -384,6 +384,7 @@ import data from '../assets/test_data1.js';
 import { changePw } from '../api/changepw';
 import question from '../assets/test_data1.js';
 // import { config } from 'vue/types/umd';
+import { withdraw } from '../api/withdraw';
 
 
 export default {
@@ -604,19 +605,24 @@ export default {
     },
 
 
-    bye_submit(e){
-      e.preventDefault();
-      // api 받아와서 수정해야함
-      if(this.bye_email == ''){
+    async bye_submit(){
+      const withdrawData = {
+        email: this.bye_email,
+        password: this.bye_pw
+      }
+      const { data } = await withdraw(withdrawData);
+      console.log(data);
+      if(/* this.bye_email !== this.email || */ this.bye_email == ''){
         this.byeemailOpen = true;
         this.byepwOpen = false;
       }
-      else if(this.bye_pw == ''){
+      else if(/* this.bye_pw !== this.password || */ this.bye_pw == ''){
         this.byepwOpen = true;
       }
       else if(this.bye_email !== '' && this.bye_pw !== '' && this.bye_repw !== '' && this.RePw == true){
         this.goodbye_page = false;
         this.goodbye_finish_page = true;
+        this.initForm();
       }
     },
     async changepw_submit(){
@@ -651,6 +657,9 @@ export default {
     initForm() {
       this.old_pw = '';
       this.new_pw = '';
+      this.bye_email = '';
+      this.bye_pw = '';
+      this.bye_repw = '';
     },
     check(){
       this.nickOpen = false;
