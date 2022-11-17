@@ -1352,6 +1352,8 @@ span {vertical-align: baseline;}
   /* margin: 246px 59px; */
   margin: auto;
   /* margin-top: ; */
+  cursor: pointer;
+  
 }
 #setting_page .modal_background .modal_box {
   width: 210px;
@@ -1432,6 +1434,7 @@ span {vertical-align: baseline;}
   font-size: 16px;
   font-weight: 800;
   font-family: 'NanumSquareRound';
+  cursor: pointer;
 }
 
 #wrap1 {
