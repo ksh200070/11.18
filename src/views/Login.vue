@@ -187,7 +187,7 @@
           </li>
         </ul>
         <p>confirm</p>
-        <img id="stamp_img" src="../assets/02_stamp.png" alt="스탬프" v-if="signupOpen == false && pwformOpen == false && pwOpen == false && emailformOpen == true">
+        <img id="stamp_img" src="../assets/02_stamp.png" alt="스탬프" v-if="submit_btn == true">
       </div>
       <div id="wrap3">
         <button class="finish-btn" @click="submit">완료</button>
