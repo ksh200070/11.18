@@ -129,7 +129,7 @@ export default new Vuex.Store({
       axios
       .get('http://localhost:3001/api/members/question', config) // header 설정을 위해 config 선언, get 두번째 인자.
       .then(res => {
-        let userInfo = {
+        let userInfo = { 
         nickName: res.data.result.nickName,
         stampImg: res.data.result.stampImg,
         question: res.data.result.question,

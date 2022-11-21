@@ -11,7 +11,7 @@
           <div>
             아직 질문이 오픈되지 않았어요!
             <br>
-            질문은 해당일 자정에 오픈됩니다.
+            질문은 당일 자정에 오픈됩니다.
             <br>
             조금만 기다려주세요:)
           </div>
@@ -26,12 +26,14 @@
   </div>
   <div v-if="Q_list_page==true" id="Q_list_page">
     <div class="title">
+      <div id="cheerup-memo">매일 잊지말고 작성해서 소중한 추억을 선물받아가세요:)</div>
       <img id="setting" src="../assets/09_setting.png" alt="설정" @click="togo_setting_page">
       <div><span class="userName">{{ userInfo.nickName }}</span>'s</div>
       <div>Christmas Q25</div>
+      
       <div id="title_line"></div>
-      <p>당신의 1년을 정리하는 25개의 질문</p>
-      <p> 선물상자는 해당일 자정에 오픈됩니다 :) </p>
+      <p id="ment-1">당신의 1년을 정리하는 25개의 질문</p>
+      <p> 선물상자는 당일 자정에 오픈됩니다 :) </p>
     </div>
 
     <div id="allBox">
@@ -88,9 +90,6 @@
         </div>
       </div>
     </div>
-      <div>
-        <span><img src="../assets/07_download.png" id="downloadIcon"></span>
-      </div>
   </div>
 <!-- 자몽: 질문 답변하기 디자인 view -->
   <div v-if="qna_answer_page==true">
@@ -121,11 +120,6 @@
 <!-- length에러나면 아래 주석처리하기 -->
 <!-- <span id="counter" v-if='a'>({{a.length}}자 / 최대 180자)</span> -->
 </form>
-
-<div class="requset_share">
-  <span class ="text">이미지 공유하기</span>
-  <img src="../assets/07_download.png" alt="">
-</div>
 
 <div id="jm_button">
 <button class="jm_finish-btn2" @click="submit">완료</button>
@@ -385,6 +379,7 @@ import { changePw } from '../api/changepw';
 import question from '../assets/test_data1.js';
 // import { config } from 'vue/types/umd';
 import { withdraw } from '../api/withdraw';
+import { logout } from '../api/index.js';
 
 
 export default {
@@ -565,6 +560,7 @@ export default {
     },
     togo_home(){
       this.$router.push({name: 'home'});
+      this.$store.commit('logout');
       this.goodbye_finish_page = false;
     },
     togo_changePw_page(){
@@ -1016,10 +1012,27 @@ body {
   flex-direction: column;
   margin-bottom: 25px;
   /* padding: 0px 60px 20px 60px; */
-
   /* background-color: #920000; */
 }
-.title > #title_line {
+#cheerup-memo {
+  font-size: 13px; 
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  color: #ffffffc1;
+  background-color: #920000;
+  padding: 5px 5px;
+  border-radius: 15px;
+  line-height: 13px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  box-shadow: inset 2px 2px 10px rgba(255, 255, 255, 0.242);
+}
+#ment-1 {
+  color: rgba(255, 255, 255, 0.742);
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+.title > #title_line { 
   height: 1px;
   width: 330px;
   background-color: rgba(255, 255, 255, 0.646);
