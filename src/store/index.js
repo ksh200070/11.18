@@ -137,23 +137,6 @@ export default new Vuex.Store({
       }
       let stampNumList=[];
 
-      // for (let i=0; i<25; i++){
-      //   if(userInfo.question[i].answerY_N==1){
-      //     stampNumList.push(userInfo.question[i].qNum)
-      //   }
-      // }
-      // console.log('답변 있는 질문상자 : '+ stampNumList)
-      // let openlist=[]
-
-      // for(let j=0; j<25; j++){
-      //   if(userInfo.question[j].opened ==1){
-      //     openlist.push(userInfo.question[j].qNum)
-      //   }
-      // }
-
-      // console.log('오픈 된 질문상자 : ' + openlist)
-
-
       commit('loginSuccess',userInfo)
       commit('saveStateToStorage')
       commit('loadingOff')
@@ -164,32 +147,7 @@ export default new Vuex.Store({
 
       router.push({name:'mainpage', config})
     })
-        // .catch(err => {
-        //   console.log(err)
-        //   commit('loadingOff')
-        //   commit('loginError')
-        // })
     },
-    // logout({commit}) {
-    //   commit('logout')
-    //   // localStorage.removeItem('access_token')
-    //   router.push({name: 'home'})
-
-    //   axios
-    //   .delete('http://localhost:3001/api/members/logout')
-    //   .then(response => {
-    //     // handle success
-    //     console.log(response);
-    // })
-    // .catch(error => {
-    //     // handle error
-    //     console.log(error);
-    // })
-    // .then(() => {
-    //     // always executed
-    // });
-
-    // },
     doReadStateFromStorage({commit}) {
       commit('readStateFromStorage')
     }

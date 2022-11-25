@@ -634,33 +634,34 @@ export default {
       }
     },
     async changepw_submit(){
-      const pwData = {
-        userIdx: this.userInfo.userIdx,
-        old_pw: this.old_pw,
-        new_pw: this.new_pw
-      }
-      const { data } = await changePw(pwData);
-      console.log(data);
-      if(this.chknewPw == false || this.new_pw == ''){
+      
+      //new_pw 조건 함수 실행
+      this.chkInput_new(this.new_pw)
+
+      //조건(영어,숫자포함 & 6자리 이상) 
+      //맞으면 -> 기존비번 일치여부 확인 -> 일치 : 성공 / 불일치 : 기존비번 확인 모달창
+      //안맞으면 -> 형식 확인 모달창
+      if(this.chknewPw==true){
+
+        const pwData = {
+          userIdx: this.userInfo.userIdx,
+          old_pw: this.old_pw,
+          new_pw: this.new_pw
+        }
+        const { data } = await changePw(pwData);
+        console.log('기존비밀번호 일치 확인 : '+ data.message);
+        
+        //기존 비번일치여부 확인하기
+        if(data.code ==1000){
+          this.changepwOpen=true;
+          this.initForm();
+        }else {
+          this.oldpwOpen=true;
+        }
+        
+      }else{
         this.newpwOpen = true;
-        this.oldpwOpen = false;
-        this.changepwOpen = false;
       }
-      else if(this.old_pw == ''){
-        this.oldpwOpen = true;
-        this.changepwOpen = false;
-      }
-      else if(this.chknewPw == true && data.code == 1000){
-        this.changepwOpen = true;
-        this.initForm();
-        // this.old_pw_true = this.old_pw;
-        // this.new_pw_true = this.new_pw;
-      }
-      // else if(this.chknewPw == true && this.old_pw !== ''){
-      //   this.changepwOpen = true;
-      //   this.old_pw_true = this.old_pw;
-      //   this.new_pw_true = this.new_pw;
-      // }
     },
     initForm() {
       this.old_pw = '';
