@@ -99,7 +99,7 @@
       />
     </div>
 
-      <button class="jm_finish-btn" @click="pwsend_submit">완료</button>
+      <button class="jm_finish-btn" @click="pwsend_submit">전송</button>
 </div>
 
 <!-- 미니 : 회원가입 view-->
