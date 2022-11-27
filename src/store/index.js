@@ -90,7 +90,7 @@ export default new Vuex.Store({
       // 통신1. 로그인 -> 토큰 반환
       commit('loadingOn')
       axios
-      .post('http://3.37.137.84:3001/api/members/login', loginObj) // 두번째 인자에 파라메터(body) 값 넣을 수 있음
+      .post('https://christmas-q25.site/api/api/members/login', loginObj) // 두번째 인자에 파라메터(body) 값 넣을 수 있음
       .then(res => {
         // 성공 시 토큰(실제로는 user_id값을 받아옴)
         // 토큰을 헤더에 포함시켜서 유저 정보를 요청
@@ -127,7 +127,7 @@ export default new Vuex.Store({
       //토큰 -> 멤버 정보 반환
       // 새로 고침 -> 토큰만 가지고 멤버정보 요청
       axios
-      .get('http://3.37.137.84:3001/api/members/question', config) // header 설정을 위해 config 선언, get 두번째 인자.
+      .get('https://christmas-q25.site/api/api/members/question', config) // header 설정을 위해 config 선언, get 두번째 인자.
       .then(res => {
         let userInfo = { 
         nickName: res.data.result.nickName,
