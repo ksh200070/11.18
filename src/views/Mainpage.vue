@@ -497,7 +497,7 @@ export default {
               }
             }
             axios
-            .get('http://christmas-q25.site/api/members/qnapage', config2)
+            .get('https://christmas-q25.site/api/api/members/qnapage', config2)
             .then(res => {
               this.q= res.data.result.qnacontent
               this.a= res.data.result.answer
