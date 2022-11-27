@@ -3,7 +3,7 @@ module.exports = {
     devServer: {
       proxy: {
         '/api': {
-          target: 'https://localhost:3001/api',
+          target: 'https://christmas-q25.site/api',
           changeOrigin: true,
           pathRewrite: { '^/api': '' },
         },

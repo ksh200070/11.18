@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 function changePw(pwData){
-  const url = 'http://localhost:3001/api/members/newpw';
+  const url = 'http://christmas-q25.site/api/members/newpw';
   return axios.patch(url, pwData);
 }
 

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 function pwsend(emaildata){
-    const url = 'http://localhost:3001/api/members/pw';
+    const url = 'http://christmas-q25.site/api/members/pw';
     return axios.post(url, emaildata); 
   }
   

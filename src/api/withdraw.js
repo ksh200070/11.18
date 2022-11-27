@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 function withdraw(withdrawData){
-  const url = 'http://localhost:3001/api/members/withdraw';
+  const url = 'http://christmas-q25.site/api/members/withdraw';
   return axios.patch(url, withdrawData);
 }
 
