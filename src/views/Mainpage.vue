@@ -459,7 +459,7 @@ export default {
 
     logout_(){
         axios
-        .delete('http://localhost:3001/api/members/logout', {data: {userIdx : this.userInfo.userIdx}})
+        .delete('http://3.37.137.84:3001/api/members/logout', {data: {userIdx : this.userInfo.userIdx}})
         .then(response => {
           // handle success
           console.log(response);
@@ -497,7 +497,7 @@ export default {
               }
             }
             axios
-            .get('http://localhost:3001/api/members/qnapage', config2)
+            .get('http://3.37.137.84:3001/api/members/qnapage', config2)
             .then(res => {
               this.q= res.data.result.qnacontent
               this.a= res.data.result.answer
@@ -509,7 +509,7 @@ export default {
     },
     togo_answerGrouping_page(){
       axios
-      .get('http://localhost:3001/api/members/question/collection',{params: {userIdx : this.userInfo.userIdx}})
+      .get('http://3.37.137.84:3001/api/members/question/collection',{params: {userIdx : this.userInfo.userIdx}})
       .then(res => {
         this.nickName = res.data.result.nickName
         this.question = res.data.result.question
@@ -758,14 +758,14 @@ export default {
               }
             }
             axios
-            .get('http://localhost:3001/api/members/qnapage', config2)
+            .get('http://3.37.137.84:3001/api/members/qnapage', config2)
             .then(res => {
               if(res.data.message == '성공'){
                 console.log(res.data.message)
                 this.q= res.data.result.qnacontent
                 this.a= res.data.result.answer
                 axios
-                .get('http://localhost:3001/api/members/question',this.config)
+                .get('http://3.37.137.84:3001/api/members/question',this.config)
                 .then(res=> {
                   console.log('qNum 전달 후 다시 받아온 opend값:'+res.data.result.question[this.dayNum-1].opened)
                   this.opened = res.data.result.question[this.dayNum-1].opened
@@ -824,14 +824,14 @@ export default {
     },
     submit() {
       axios
-      .patch('http://localhost:3001/api/members/useranswer',{
+      .patch('http://3.37.137.84:3001/api/members/useranswer',{
           answer : this.a,
           userIdx : this.userInfo.userIdx,
           qNum : this.dayNum
       })
       .then(res => {this.answerY_N = res.data.result.answerY_N;})
       axios
-      .get('http://localhost:3001/api/members/question', this.config)
+      .get('http://3.37.137.84:3001/api/members/question', this.config)
       .then(res => {this.userInfo.question = res.data.result.question;})
       
       this.Q_list_page=true;
